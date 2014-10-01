@@ -1,0 +1,73 @@
+AddDefaultCharset utf-8
+
+RewriteEngine On
+
+RewriteBase /
+
+#@@DIST_RULES
+
+# rewrite fingerprint assets
+RewriteRule ^assets/css/[a-z0-9]{32}(.*) assets/css/$1 [L]
+RewriteRule ^[a-z0-9]{32}((app|libs)\.min\.js)$ $1 [L]
+
+# fixes fontello font path
+RewriteRule ^assets/font/(.*) assets/fonts/fontello/font/$1 [L]
+
+RewriteCond $1 !^(partials|assets|scripts|robots\.txt|favicon\.ico)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*)$ index_dev.html [L]
+
+DirectoryIndex index_dev.html
+
+# mod_deflate configuration
+# http://www.brighterlamp.com/2010/10/how-to-enable-mod_deflate-on-apache-to-optimize-page-speed/
+<IfModule mod_deflate.c>
+
+	# Restrict compression to these MIME types
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE text/xml
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE text/javascript
+	AddOutputFilterByType DEFLATE text/css
+
+	# Level of compression (Highest 9 - Lowest 1)
+	#DeflateCompressionLevel 6
+
+	# Netscape 4.x has some problems.
+	BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+	# Netscape 4.06-4.08 have some more problems
+	BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+	# MSIE masquerades as Netscape, but it is fine
+	BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+
+	<IfModule mod_headers.c>
+		# Make sure proxies don't deliver the wrong content
+		Header append Vary User-Agent env=!dont-vary
+	</IfModule>
+
+</IfModule>
+
+<FilesMatch "\.(lang)$">
+Header set Content-Type "application/json; charset=utf-8"
+</FilesMatch>
+
+<FilesMatch "\.(png|css|js|woff|eot|ttf|svg|otf|lang)$">
+# 7 days for static assets
+Header set Cache-Control "max-age=604800, public, must-revalidate"
+</FilesMatch>
+
+<FilesMatch "favicon\.png$">
+# 1 year
+Header set Cache-Control "max-age=31536000, public, must-revalidate"
+</FilesMatch>
+
+<FilesMatch "(favicon\.png$)|(\.(html|png|css|js|woff|eot|ttf|svg|otf|lang))$">
+Header set Vary Accept-Encoding
+</FilesMatch>

@@ -1,0 +1,90 @@
+<div id="page-upload">
+
+    <div id="drop-box" p2m-drop-zone max-files="8" files="fileModel.files" ng-animate ng-hide="getIsFileDropped()" ng-class="{ 'hasFiles': fileModel.files.length > 0}">
+        <div >
+            <button ng-hide="fileModel.files.length > 0" class="btn btn-primary btn-lg">
+                <i class="glyphicon glyphicon-plus"></i>
+                Add (or drop) files...
+            </button>
+
+            <div>
+                <p ng-show="fileModel.files.length > 0">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span class="clearfix"></span>
+                    Drop files here
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div ng-hide="getIsFileDropped()">
+        <div id="page-upload-intro" class="well well-lg col-sm-12">
+            <ol>
+                <li><p>Drag any file(s) here</p></li>
+                <li><p>Send link to a friend</p></li>
+                <li><p>Transfer directly via p2p</p></li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div ng-show="getIsFileDropped()">
+        <div id="page-upload-warning" class="pull-right">
+            <p>
+                <i class="fa fa-warning"></i>
+                Keep this browser tab open to enable p2p transfer.
+            </p>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="upload-queue">
+            <div class="upload-queue-item">
+                <div class="media" ng-repeat="file in fileModel.files" ng-animate>
+                    <div class="pull-left">
+                        <div class="media-object bg-primary">
+                            <p2m-file-icon file-type="file.type" class="file-icon-small"></p2m-file-icon>
+                        </div>
+                        
+                        <a href="" class="lock-file" ng-click="lockFile(file)">
+                            <i class="fa" ng-class="{ 'fa-lock': file.password, 'fa-unlock': ! file.password }"></i>
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <button type="button" class="close pull-right" aria-hidden="true" ng-click="removeFile(file.uniqueUrl)">&times;</button>
+                        <div class="form-group">
+                            <div class="file-name">
+                                <h4 title="{{ file.name }}" class="pull-left"> {{ file.name }} </h4>
+                                <span class="pull-right text-muted hidden-xs">{{ file.size|humanFileSize }}</span>
+                            </div>
+                            <div class="clearfix"></div>
+                            <input type="text" class="form-control" placeholder="Generating Url..." value="{{ file.uniqueUrl }}" onclick="select()" readonly>
+                            <p class="text-muted">
+                                Downloaded {{ file.totalDownloads }}x
+                            </p>
+                        </div>
+
+                        <div class="upload-client-list">
+                            <div class="upload-client-list-item" ng-repeat="client in file.clients|limitTo:6">
+                                <div class="tile tile-small" ng-animate>
+                                    <i class="fa fa-user"></i>
+                                    <p2m-progress-bar percent="client.progress"></p2m-progress-bar>
+                                </div>
+                                <small>{{ client.speed|humanFileSize:0 }}/s</small>
+                            </div>
+                            <div class="text-muted" ng-show="file.clients.length > 6">
+                                ... {{ file.clients.length - 6 }} more
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8 col-sm-push-2">
+            <button class="btn btn-primary btn-lg col-sm-12" ng-click="addFile()">
+                <i class="glyphicon glyphicon-plus"></i>
+                Add (or drop) files...
+            </button>
+        </div>
+    </div>
+</div>

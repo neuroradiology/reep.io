@@ -1,0 +1,191 @@
+<div id="page-about">
+    <section class="section section-primary">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="sliding-file-slot hidden-xs" id="sliding-file-slot-start"></div>
+                
+                <reepio-sliding-file scroll-max="1480" class="hidden-xs"></reepio-sliding-file>
+                <div class="sliding-file-path hidden-xs"></div>
+                
+                <div class="sliding-file-slot hidden-xs" id="sliding-file-slot-end"></div>
+            </div>
+            <div class="col-sm-9">
+                <h1>What is reep<span>.io</span>?</h1>
+                <p>reep.io uses modern WebRTC technology to enable peer-to-peer file transfers between two browser.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section section-peer-to-peer">
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9">
+                <h2>Peer-to-Peer file transfers<br><small>(in your browser)</small></h2>
+                <p>
+                    With reep.io (reep = peer spelled backwars, duh) you can transfer files directly to another browser.
+                    You can transfer anything you want without storing the data on a server first. You can even stream
+                    video files or preview images directly.
+                    <br>
+                    <br>
+                    <a class="btn btn-primary" href="http://www.webrtc.org/" role="button" target="_blank">More about WebRTC</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section section-privacy">
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9">
+                <h2>Privacy</h2>
+                <p>
+                    reep.io's only purpose is to make it easy for you to connect to your buddy by providing you with a link that automatically connects you both. After the initial handshake we are out. The file transfer now only happens between you two without up- and downloading the file to a server.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section section-security">
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9">
+                <h2>Security</h2>
+                <p>
+                    The whole communication is encrypted using Datagram Transport Layer Security (DTLS) using SSL. This reduces the risk of man in the middle attacks.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section section-about-us">
+        <div class="row">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-9">
+                <h2>About us</h2>
+                <p>We'd love to get in touch with you. <br>Contact us via e-mail at <a href="mailto:contact@reep.io">contact@reep.io</a></p>
+            </div>
+            <div class="col-sm-push-3 col-sm-3">
+                <a href="https://twitter.com/IoReep" class="btn btn-primary btn-lg" target="_blank"><i class="fa fa-twitter"></i> @IoReep</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- <div class="page-header">
+    <h2>How it works</h2>
+</div>
+
+<p>
+    reep.io uses modern WebRTC technology to enable peer-to-peer file transfers
+    between your machine and a remote machine. There is only one server involved
+    (ICE/TURN-Server) at the beginning to negotiate with the remote machine
+    to establish a connection between the two peers.
+</p>
+
+<div class="page-header">
+    <h2>Security</h2>
+</div>
+<p>
+    Encryption is mandatory for all WebRTC components.
+    With RTCDataChannel all data is secured with Datagram
+    Transport Layer Security (DTLS). DTLS is a derivative of SSL,
+    meaning your data will be as secure as using any standard SSL based connection.
+    DTLS is standardized and built in to all browsers that support WebRTC.
+</p>
+<div class="page-header">
+    <h2>Streaming</h2>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            Video streaming is currently only supported in chrome.
+            The video you want to stream must be of the following type:
+        </p>
+        <ul>
+            <li>
+                mp4 (codecs="avc1.42E01E, mp4a.40.2")
+            </li>
+            <li>
+                webm (codecs="vorbis, vp8, vp9")
+            </li>
+            <li>
+                ogg (codecs="theora, vorbis")
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="page-header">
+    <h2>Screenshots</h2>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            You can paste screenshots directly from your clipboard to the upload site.
+        </p>
+    </div>
+</div>
+
+<div class="page-header">
+    <h2>Supported Browsers</h2>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>The following browsers support WebRTC. However, some limitations to the file system API limit the amount of storage available to the user.</p>
+    </div>
+    <div class="col-sm-4 text-center">
+        <p style="font-size: 42px"><i class="icon-chrome center-block"></i></p>
+        <p>Google Chrome >= 23</p>   
+    </div>
+    <div class="col-sm-4 text-center">
+        <p style="font-size: 42px"><i class="icon-firefox center-block"></i></p>
+        <p>Mozilla Firefox >= 22</p>
+    </div>
+    <div class="col-sm-4 text-center">
+        <p style="font-size: 42px"><i class="icon-opera center-block"></i></p>
+        <p>Opera >= 18</p>
+    </div>
+</div>
+
+<div class="page-header">
+    <h2>Used libraries</h2>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <ul>
+            <li>
+                <a href="http://peerjs.com/" target="_blank">PeerJS</a>
+            </li>
+            <li>
+                <a href="https://angularjs.org/" target="_blank">AngularJS</a>
+            </li>
+            <li>
+                <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-3">
+        <ul>
+            <li>
+                <a href="https://github.com/Wolfy87/EventEmitter" target="_blank">EventEmitter</a>
+            </li>
+            <li>
+                <a href="http://jquery.com/" target="_blank">jquery</a>
+            </li>
+            <li>
+                <a href="http://threejs.org/" target="_blank">three.js</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-3">
+        <ul>
+            <li>
+                <a href="https://github.com/Puffant/paste.js" target="_blank">paste.js</a>
+            </li>
+        </ul>
+    </div>
+</div> -->

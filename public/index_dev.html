@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" ng-app="peertome">
+<head>
+    <meta charset="UTF-8">
+    <base href="/"/>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/fontello/css/fontello.css"/>
+    <link rel="stylesheet" href="assets/js/socialshareprivacy/socialshareprivacy.css"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title ng-controller="TitleController">reep.io peer to peer filesharing and streaming made easy</title>
+    <meta name="description" content="In-browser peer-to-peer file transfer and streaming made easy" />
+    
+    <script>
+        window['app_env'] = 'dev';
+    </script>
+
+    <script src="assets/js/jquery-1.11.1.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/angular-1.2.21/angular.js"></script>
+    <script src="assets/js/angular-1.2.21/angular-route.js"></script>
+    <script src="assets/js/angular-1.2.21/angular-animate.js"></script>
+    <script src="assets/js/angulartics-0.16.1/src/angulartics.js"></script>
+    <script src="assets/js/angulartics-0.16.1/src/angulartics-piwik.js"></script>
+    <script src="assets/js/ui-bootstrap-0.11.0.js"></script>
+    <script src="assets/js/jquery.socialshareprivacy.js"></script>
+
+    <script src="assets/js/three.js"></script>
+    <script src="assets/js/peer.js"></script>
+    <script src="assets/js/paste.js/paste.js"></script>
+
+    <script src="modules/common/filters/fileFilters.js"></script>
+    <script src="modules/common/filters/stringFilters.js"></script>
+
+    <script src="modules/common/directives/fileIcon.js"></script>
+    <script src="modules/common/directives/progressBar.js"></script>
+    <script src="modules/common/directives/reepIoLogo.js"></script>
+
+    <script src="modules/common/module.js"></script>
+    <script src="modules/common/crypto.js"></script>
+    <script src="modules/common/notifications.js"></script>
+    <script src="modules/common/randomService.js"></script>
+    <script src="modules/common/detectCrawlerService.js"></script>
+    <script src="modules/common/dialog.js"></script>
+    <script src="modules/common/loading.js"></script>
+
+    <script src="modules/peering/peeringService.js"></script>
+
+    <script src="modules/download/module.js"></script>
+    <script src="modules/download/downloadController.js"></script>
+    <script src="modules/download/downloadService.js"></script>
+    <script src="modules/download/loadingIndicatorDirective.js"></script>
+
+    <script src="modules/upload/module.js"></script>
+    <script src="modules/upload/uploadController.js"></script>
+    <script src="modules/upload/uploadService.js"></script>
+    <script src="modules/upload/dropZoneDirective.js"></script>
+
+    <script src="modules/storage/module.js"></script>
+    <script src="modules/storage/storageService.js"></script>
+
+    <script src="modules/static/static.js"></script>
+    <script src="modules/static/slidingFileDirective.js"></script>
+
+    <script src="modules/title/title.js"></script>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+
+    <link rel="stylesheet" href="assets/css/theme.css"/>
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/png" />
+
+    <meta property="og:image" content="assets/images/reepio-cube.png">
+</head>
+<body>
+    <div class="loading-screen" ng-if=" ! running" ng-controller="LoadingCtrl">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-sm-push-3">
+                    <div class="loading-screen-inner">
+                        reep<span class="text-primary">.io</span> is loading
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="DialogController">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-body">
+                    <h4><strong>{{ title }}</strong></h4>
+                    <p>{{ message }}</p>
+                </div>     
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>           
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        <reep-io-logo></reep-io-logo>
+                        reep<span class="text-primary">.io</span>
+                        <span class="beta-badge">beta</span>
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li ng-class="{active: getIsPageActive('/')}"><a ng-href="/">Upload<span ng-show="fileModel.files.length > 0"> ({{ fileModel.files.length}})</span></a></li>
+                        <li ng-class="{active: getIsPageActive('/about')}"><a ng-href="/about">About</a></li>
+                        <li>
+                            <a href="https://twitter.com/IoReep" target="_blank">
+                                <i class="fa fa-twitter"></i> @IoReep
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="navbar-right col-sm-3" ng-hide="getIsPageActive('/d') || ! downloadId || downloadError">
+                        <a href="/d/{{ downloadId }}">
+                            <div class="well well-sm" ng-cloak>
+                                {{ file.name|maxLength:15 }}
+                                <p2m-progress-bar percent="downloadProgress"></p2m-progress-bar>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <ng-view onload="view_Load()" autoscroll="true"></ng-view>
+
+        <footer id="footer" class="hidden-xs">
+            <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+                <div class="container">
+                    <ul class="nav navbar-nav">
+                        <li><p class="navbar-text">&copy; <a ng-href="http://reep.io/">reep.io</a> 2014</p></li>
+                        <li><a ng-href="/imprint">Imprint</a></li>
+                        <li><a ng-href="/privacy">Privacy</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div id="socialshareprivacy"></div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </footer>
+    </div>
+</body>
+</html>

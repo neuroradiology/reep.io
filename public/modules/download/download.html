@@ -1,0 +1,156 @@
+<div class="embed-responsive embed-responsive-16by9" ng-show="isStreamingRunning == true">
+    <video controls autoplay width="100%" height="auto"></video>
+</div>
+
+<div class="col-sm-10 col-sm-push-1" ng-show="getIsDownloadVisible()">
+    <div class="row">
+        <div id="page-download" ng-class="{ 'page-download-streaming': isStreamingRunning, 'page-download-image': isImage }">
+
+            <div ng-if="isImage" class="page-download-image-preview" ng-cloak>
+                <div class="col-sm-10 col-sm-push-1">
+                    <img reepio-loading-indicator reepio-loading-indicator-message="Loading image preview..."
+                    alt="{{ downloadService.file.name }}" title="{{ downloadService.file.name }}" ng-src="{{fileSystemUrl}}" class="img img-responsive" />
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        
+            <div class="well">
+                <!-- not enough filesystem space -->
+                <div class="row" ng-show="downloadService.file.noFileSystem && downloadService.file.size > 524288000">
+                    <div class="col-sm-12">
+                        <div class="well tile">   
+                            <div class="row">
+                                <div class="col-sm-2 text-center">
+                                    <i class="fa fa-warning" style="font-size: 64px;"></i>                                
+                                </div>
+                                <div class="col-sm-10">                  
+                                    <h3 style="margin-top: 0;">Not enough disk space</h3>
+                                    <p>
+                                        The granted disk space exceeds the file size. 
+                                        The file will be saved into your memory which may cause instabilities if your memory is full.                           
+                                    </p>
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-sm-2">
+                        <p2m-file-icon file-type="downloadService.file.type" class="file-icon-small"></p2m-file-icon>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-10">
+                        <div class="file-name">
+                            <h4 title="{{ downloadService.file.name }}" class="pull-left"> {{ downloadService.file.name }} </h4>
+                            <span class="pull-right text-muted hidden-xs">{{ downloadService.file.size|humanFileSize }}</span>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <p2m-progress-bar percent="downloadService.file.progress" speed="downloadService.file.bytesPerSecond" show-progress="true"></p2m-progress-bar>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="btn-group btn-group-justified col-xs-12">
+                        <a class="btn btn-lg btn-primary" ng-click="downloadFile()" ng-show="downloadService.downloadState == 'ready' && isStreamingRunning != true">
+                            <i class="fa fa-download"></i> Download
+                        </a>
+
+                        <a class="btn btn-lg btn-primary" ng-click="startStream()" ng-show="downloadService.downloadState == 'ready' && isStreamAble && isStreamingRunning == false">
+                            <i class="fa fa-play"></i> Stream
+                        </a>
+                    </div>
+                </div>
+
+                <div ng-show="downloadService.downloadState == 'inprogress' && isStreamingRunning == false">
+                    <div class="btn-group btn-group-justified">
+                        <a class="btn btn-lg btn-primary disabled col-xs-12">
+                            <i class="fa fa-refresh fa-spin"></i> Downloading...
+                        </a>
+                    </div>
+                </div>
+
+                <a class="btn btn-lg btn-primary col-xs-12" ng-click="resumeUpload()" ng-show="downloadService.downloadState == 'paused'">
+                    <i class="fa fa-play"></i> Resume download
+                </a>
+
+
+                <a class="btn btn-lg btn-primary col-xs-12" ng-click="saveFile()" ng-show="downloadService.downloadState == 'finished'">
+                    <i class="fa fa-download"></i> Save to disk
+                </a>
+                <div class="clearfix"></div>
+            </div>
+            <a id="download-frame" download="{{ file.name }}" href="{{ downloadService.file.fileSystemUrl }}" style="display: none"></a>
+        </div>
+    </div>
+</div>
+
+<!-- authentication -->
+<div class="col-sm-10 col-sm-push-1" ng-show="downloadService.downloadState == 'authentication'" id="page-download-authenticating">
+    <div class="well">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="tile well text-center">
+                        <i class="fa fa-lock" style="font-size: 64px"></i>
+                    </div>
+                </div>                
+                <div class="col-sm-9">
+                    <h1>Protected file</h1>
+                    <p>Please enter the correct password below to unlock this file</p>
+                </div>
+            </div>
+                  
+            <div class="row">
+                <div class="col-sm-12">
+                    <alert type="danger" ng-show="authenticationError">{{ authenticationError }}</alert>
+                    <div class="clearfix"></div>
+                    
+                    <form ng-submit="doAuthentication()">
+                        <div class="input-group input-group-lg">
+                            <input type="password" class="form-control text-center" ng-model="password">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-click="doAuthentication()">
+                                    <i class="glyphicon glyphicon-arrow-right"></i> Unlock
+                                </button>
+                            </span>
+                        </div>
+                    </form> 
+                </div>
+            </div>  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<!-- Connecting... -->
+<div class="col-sm-10 col-sm-push-1" ng-show="downloadService.downloadState == 'connecting' && ! downloadError" id="page-download-connecting">
+    <div class="text-center" ng-hide="downloadError">
+        <i class="fa fa-spin fa-gear" style="font-size: 32px"></i>
+        <i class="fa fa-spin fa-gear" style="font-size: 64px"></i>
+        <i class="fa fa-spin fa-gear" style="font-size: 16px"></i>
+        <h3>Connecting to remote client...</h3>
+    </div>
+</div>
+
+<div class="text-center" id="page-download-error" ng-show="downloadError">
+    <i class="fa fa-warning" style="font-size: 64px;"></i>
+    <h3>{{ downloadError }}</h3>
+    <p ng-show="downloadErrorDescription">{{ downloadErrorDescription }}</p>
+</div>
+
+<div class="row">
+    <div class="col-xs-12" style="margin-top: 20px;">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- reep.io wide -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6890068258895036"
+             data-ad-slot="1776785037"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
