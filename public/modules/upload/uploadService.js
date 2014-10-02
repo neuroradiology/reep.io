@@ -208,6 +208,10 @@
                 }
 
                 if (connectionData.reader === undefined){
+                    //First request
+                    $rootScope.$emit('UploadStart', connection.peer, data.fileId);
+                    connectionData.uploadedChunksSinceLastCalculate = 0;
+
                     connectionData.reader = new FileReader();
 
                     connectionData.reader.onloadend = function(evt) {
@@ -254,12 +258,6 @@
 
                 connectionData.startByte = data.chunkPosition * config.chunkSize;
                 connectionData.chunksToSend = config.chunksPerBlock;
-
-                if(data.chunkPosition  == 0){
-                    $rootScope.$emit('UploadStart', connection.peer, data.fileId);
-
-                    connectionData.uploadedChunksSinceLastCalculate = 0;
-                }
 
                 if(this.uploads[data.fileId].file.blobData !== undefined){
                     var blob = this.uploads[data.fileId].file.blobData.slice(connectionData.startByte, (connectionData.startByte+config.chunkSize));
