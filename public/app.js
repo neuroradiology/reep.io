@@ -30,7 +30,7 @@
 	app.constant('appEnv', (typeof window['app_env'] !== 'undefined' ? window['app_env'] : 'prod'));
 			
 	app.config(['$routeProvider', '$locationProvider', '$analyticsProvider', function ($routeProvider, $locationProvider, $analyticsProvider) {
-		var v = '?v1';
+		var v = '?v2';
 		
 		$routeProvider
 			.when('/about', {
