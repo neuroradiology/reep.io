@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('storage')
+    angular.module('download')
         .service('storageService', ['$crypto', '$q', function ($crypto, $q) {
             this.files = {};
 
@@ -94,8 +94,8 @@
                                     this.getFile(fileSystem, fileIdentifier + '/' + fileName, {create: false}).then(
                                         function(fileEntry){
                                             fileEntry.getMetadata(
-                                                function(metadata){
-                                                    deferred.resolve({metaData:metaData, fileEntry:fileEntry});
+                                                function(metaData){
+                                                    deferred.resolve({metaData: metaData, fileEntry: fileEntry});
                                                 },
                                                 function(){
                                                     deferred.reject();
