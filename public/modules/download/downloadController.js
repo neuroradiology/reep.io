@@ -5,10 +5,11 @@
         .controller('DownloadCtrl', ['$scope', '$rootScope', '$route', '$timeout', '$location', '$analytics', '$crypto', 'config', 'downloadService', 'detectCrawlerService',
             function ($scope, $rootScope, $route, $timeout, $location, $analytics, $crypto, config, downloadService, detectCrawlerService) {
 
-                $rootScope.downloadId = $route.current.params.id;
-                $rootScope.cryptoDownloadId = $crypto.crc32($route.current.params.id);
-
-                $rootScope.downloadService = downloadService;
+                if($rootScope.downloadId === undefined){
+                    $rootScope.downloadId = $route.current.params.id;
+                    $rootScope.cryptoDownloadId = $crypto.crc32($route.current.params.id);
+                    $rootScope.downloadService = downloadService;
+                }
 
                 // dismiss key
                 $analytics.pageTrack('/d/' + $rootScope.cryptoDownloadId);
@@ -19,28 +20,12 @@
                     return;
                 }
 
-//				if(config.debug) {
-//                    if(navigator.webkitTemporaryStorage !== undefined){
-//                        navigator.webkitTemporaryStorage.queryUsageAndQuota(
-//                            function(usage, total) {
-//                                var mbUsage = Math.round(usage / 1024 / 1024),
-//                                    mbTotal = Math.round(total / 1024 / 1024);
-//
-//                                console.info('Storage quota: ' + mbUsage + '/' + mbTotal + 'MB');
-//                            },
-//                            function(err) {
-//                                console.error(err);
-//                            });
-//                    }
-//				}
-
 //                $scope.isStreamAble = false;
 //                $scope.isStreamingRunning = false;
-//,
 //                $scope.isImage = false;
 
-                if($rootScope.downloadId.length == (config.peerIdLength + config.fileIdLength)){
-                    downloadService.requestFileInformation($rootScope.downloadId);
+                if(downloadService.id === null && $rootScope.downloadId.length == (config.peerIdLength + config.fileIdLength)){
+                        downloadService.requestFileInformation($rootScope.downloadId);
                 }
 
                 $scope.downloadFile = function(){

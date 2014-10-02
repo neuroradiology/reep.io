@@ -12,8 +12,8 @@
 
             this.file = {
                 name: '',
-                size: 0,
                 type: '',
+                size: 0,
                 totalChunksToRecieve: 0,
                 chunksRecieved: 0,
                 chunksofCurrentBlockRecieved: 0,
@@ -40,10 +40,12 @@
                     });
 
                     this.connection.on('open', function(){
-                        this.connection.send({
-                            packet: 'RequestFileInformation',
-                            fileId: this.id.fileId
-                        });
+                        if(this.file.name.length == 0){
+                            this.connection.send({
+                                packet: 'RequestFileInformation',
+                                fileId: this.id.fileId
+                            });
+                        }
                     }.bind(this));
 
                     this.connection.on('close', function(){
@@ -82,6 +84,10 @@
             }
 
             this.startDownload = function(){
+                if(this.file.name.length == 0){
+                    return;
+                }
+
                 this.downloadState = 'inprogress';
 
                 this.intervalProgress = setInterval(this.progressCalculations.bind(this), 1000);
