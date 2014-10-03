@@ -42,7 +42,7 @@
                 <div class="media" ng-repeat="file in fileModel.files" ng-animate>
                     <div class="pull-left">
                         <div class="media-object bg-primary">
-                            <p2m-file-icon file-type="file.type" class="file-icon-small"></p2m-file-icon>
+                            <p2m-file-icon file-type="file.rawFile.type" class="file-icon-small"></p2m-file-icon>
                         </div>
                         
                         <a href="" class="lock-file" ng-click="lockFile(file)">
@@ -53,8 +53,8 @@
                         <button type="button" class="close pull-right" aria-hidden="true" ng-click="removeFile(file.uniqueUrl)">&times;</button>
                         <div class="form-group">
                             <div class="file-name">
-                                <h4 title="{{ file.name }}" class="pull-left"> {{ file.name }} </h4>
-                                <span class="pull-right text-muted hidden-xs">{{ file.size|humanFileSize }}</span>
+                                <h4 title="{{ file.rawFile.name }}" class="pull-left"> {{ file.rawFile.name }} </h4>
+                                <span class="pull-right text-muted hidden-xs">{{ file.rawFile.size|humanFileSize }}</span>
                             </div>
                             <div class="clearfix"></div>
                             <input type="text" class="form-control" placeholder="Generating Url..." value="{{ file.uniqueUrl }}" onclick="select()" readonly>

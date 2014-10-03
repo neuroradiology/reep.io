@@ -52,9 +52,6 @@
                     rawFile: file,
                     fileId: null,
                     clients: {},
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
                     totalDownloads:  0,
                     password: ''
                 };

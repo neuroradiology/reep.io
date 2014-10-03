@@ -182,9 +182,6 @@
                         }
 
                         $rootScope.fileModel.files.unshift({
-                            name: 'Clipbboard Image ' + new Date() + '.' + fileType,
-                            size: byteString.length,
-                            type: mimeString,
                             fileId: null,
                             clients: {},
                             totalDownloads:  0,
@@ -200,6 +197,7 @@
                         delete data.dataURL;
                     });
                 });
+
                 paste.focus();
 
                 $('body').get(0).onpaste = function(e) {
