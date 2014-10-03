@@ -20,11 +20,15 @@ The whole communication is encrypted using Datagram Transport Layer Security (DT
 
 Used libraries
 ---
- * https://github.com/peers/peerjs/ The webrtc js library used. This made reep.io even possible.
- * https://github.com/layerssss/paste.js/
- * https://getbootstrap.com/
- * http://jquery.com/
- * https://angularjs.org/
- * https://github.com/luisfarzati/angulartics
- * https://github.com/mrdoob/three.js/
- * http://www.heise.de/extras/socialshareprivacy/
+* https://github.com/peers/peerjs/ The webrtc js library used. This made reep.io even possible.
+* https://github.com/layerssss/paste.js/
+* https://getbootstrap.com/
+* http://jquery.com/
+* https://angularjs.org/
+* https://github.com/luisfarzati/angulartics
+* https://github.com/mrdoob/three.js/
+* http://www.heise.de/extras/socialshareprivacy/
+
+License
+---
+reep.io uses the [GPL v2](http://www.gnu.org/licenses/gpl-2.0.html) license
