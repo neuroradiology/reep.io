@@ -6910,6 +6910,11 @@ a.tile:hover {
   .navbar-brand {
     padding-left: 60px;
   }
+  .navbar-text {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 0 0 10px;
+  }
 }
 @media (min-width: 768px) {
   #header .nav .navbar-nav {

@@ -91,7 +91,8 @@ module.exports = function(grunt) {
 							'assets/fonts/**', 
 							'assets/images/**', 
 							'assets/js/socialshareprivacy/**',
-							'modules/**/*.html'
+							'modules/**/*.html',
+							'github-btn.html'
 						]
 					}
 				]
