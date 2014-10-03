@@ -156,9 +156,10 @@
                     });
                 };
 
-                var paste = $.paste().appendTo($('body').get(0));
+                var paste = $.paste().appendTo('body');
 
                 paste.on('pasteImage', function (e, data){
+                    console.log('test');
                     $scope.$apply(function() {
                         //data:image/png;base64,....
                         var byteString = atob(data.dataURL.split(',')[1]);
