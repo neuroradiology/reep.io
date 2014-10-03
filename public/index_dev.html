@@ -137,8 +137,8 @@
                     <div class="navbar-right col-sm-3" ng-hide="getIsPageActive('/d') || ! downloadId || downloadError">
                         <a href="/d/{{ downloadId }}">
                             <div class="well well-sm" ng-cloak>
-                                {{ file.name|maxLength:15 }}
-                                <p2m-progress-bar percent="downloadProgress"></p2m-progress-bar>
+                                {{ downloadService.file.name|maxLength:15 }}
+                                <p2m-progress-bar percent="downloadService.file.progress"></p2m-progress-bar>
                             </div>
                         </a>
                     </div>
