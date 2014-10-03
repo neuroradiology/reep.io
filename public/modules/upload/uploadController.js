@@ -185,7 +185,16 @@
                             name: 'Clipbboard Image ' + new Date() + '.' + fileType,
                             size: byteString.length,
                             type: mimeString,
-                            blobData: new Blob([ab], {type: mimeString})
+                            fileId: null,
+                            clients: {},
+                            totalDownloads:  0,
+                            password: '',
+                            rawFile: {
+                                name: 'Clipbboard Image ' + new Date() + '.' + fileType,
+                                size: byteString.length,
+                                type: mimeString,
+                                blobData: new Blob([ab], {type: mimeString})
+                            }
                         });
 
                         delete data.dataURL;
