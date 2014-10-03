@@ -1,6 +1,6 @@
 reep.io
 =======
-A browser based p2p file transfer platform
+A browser based p2p file transfer platform. See it live here: https://reep.io
 
 What is reep.io?
 ---
