@@ -17,3 +17,13 @@ reep.io's only purpose is to make it easy for you to connect to your buddy by pr
 Security
 ---
 The whole communication is encrypted using Datagram Transport Layer Security (DTLS) using SSL. This reduces the risk of man in the middle attacks.
+
+Used libraries
+---
+ * https://github.com/peers/peerjs/ The webrtc js library used. This made reep.io even possible.
+ * https://angularjs.org/
+ * https://getbootstrap.com/
+ * http://jquery.com/
+ * https://github.com/mrdoob/three.js/
+ * https://github.com/layerssss/paste.js/
+ * http://www.heise.de/extras/socialshareprivacy/
